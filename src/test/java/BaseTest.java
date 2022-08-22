@@ -9,9 +9,8 @@ import java.util.concurrent.TimeUnit;
 public class BaseTest {
     WebDriver driver;
     final static String URL = "https://www.saucedemo.com/";
-//    логин
-//    пароль
-
+    final static String login = "standard_user";
+    final static String password = "secret_sauce";
     @BeforeMethod
     public void setup(){
         System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
