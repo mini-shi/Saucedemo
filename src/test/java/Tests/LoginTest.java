@@ -4,6 +4,7 @@ import Pages.LoginPage;
 import Pages.ProductsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -18,20 +19,22 @@ public class LoginTest extends BaseTest {
         assertTrue(productsPage.isOpened(), "PRODUCTS");
     }
 
-    @Test
-    public void wrongPassword() {
+    @Test(dataProvider = "Data for negative login tests")
+    public void negativeLogin(String userName, String password, String error) {
         loginPage.open();
-        loginPage.login("standard_user", "wedwedw");
+        loginPage.login(userName, password );
         assertEquals(loginPage.getErrorMessage(),
-                "Epic sadface: Username and password do not match any user in this service");
+                error);
 
     }
 
-    @Test
-    public void emptyUserName() {
-        loginPage.open();
-        loginPage.login("", password);
-        assertEquals(loginPage.getErrorMessage(),
-                "Epic sadface: Username is required");
+
+    @DataProvider (name = "Data for negative login tests")
+    public Object[][] loginData() {
+        return new Object[][]{
+                {"standard_user", "wedwedw", "Epic sadface: Username and password do not match any user in this service" },
+                {"", "secret_sauce", "Epic sadface: Username is required" }
+        };
     }
+
 }

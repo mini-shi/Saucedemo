@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Smoke Test" parallel="tests" thread-count="2">
+    <listeners>
+        <listener class-name="Tests.AnnotationTransformer"/>
+        <listener class-name="Tests.TestListener"></listener>
+    </listeners>
+    <test name="Thread #1">
+        <classes>
+            <class name="Tests.LoginTest" />
+        </classes>
+    </test> <!-- Test -->
+    <test name="Thread #2">
+        <classes>
+        <class name="Tests.ProductTest" />
+        </classes>
+    </test> <!-- Test -->
+    <test name="Thread #3">
+        <classes>
+            <class name="Tests.CartTest" />
+        </classes>
+    </test> <!-- Test -->
+    <test name="Thread #4">
+        <classes>
+            <class name="Tests.CheckoutTest" />
+        </classes>
+    </test> <!-- Test -->
+    <test name="Thread #5">
+        <classes>
+            <class name="Tests.CheckoutOverviewTest" />
+        </classes>
+    </test> <!-- Test -->
+</suite>
+

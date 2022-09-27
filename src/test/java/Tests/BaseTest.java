@@ -1,33 +1,41 @@
 package Tests;
 
-import Pages.CartPage;
-import Pages.CheckoutPage;
-import Pages.LoginPage;
-import Pages.ProductsPage;
+import Pages.*;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.ITestContext;
+import org.testng.annotations.*;
 
 import java.util.concurrent.TimeUnit;
+@Listeners(TestListener.class)
 
 public class BaseTest {
     WebDriver driver;
     LoginPage loginPage;
     ProductsPage productsPage;
     CheckoutPage checkoutPage;
-    //final static String URL = "https://www.saucedemo.com/";
     CartPage cartPage;
     final static String login = "standard_user";
     final static String password = "secret_sauce";
 
+    @Parameters({"browser"})
     @BeforeMethod
-    public void setup(){
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
-        ChromeOptions options = new ChromeOptions();
-        //options.setHeadless(true);
-        driver = new ChromeDriver(options);
+    public void setup(@Optional("chrome") String browser, ITestContext testContext){
+        if(browser.equals("chrome")) {
+            WebDriverManager.chromedriver().setup();
+            ChromeOptions options = new ChromeOptions();
+            options.setHeadless(true);
+            driver = new ChromeDriver(options);
+        } else if (browser.equals("firefox")) {
+           WebDriverManager.firefoxdriver().setup();
+           driver = new FirefoxDriver();
+        }
+        testContext.setAttribute("driver", driver);
+
+
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         loginPage = new LoginPage(driver);
@@ -37,7 +45,9 @@ public class BaseTest {
     }
     @AfterMethod(alwaysRun = true)
     public void close() {
-       // driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
 }

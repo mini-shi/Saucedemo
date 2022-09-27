@@ -20,5 +20,4 @@ public class CheckoutOverviewTest extends  BaseTest {
         assertTrue(driver.findElement(By.id("checkout_complete_container")).isDisplayed(),
                 "Сообщение об успешной покупке");
     }
-
 }

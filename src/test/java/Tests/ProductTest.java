@@ -12,7 +12,7 @@ import static org.testng.Assert.assertTrue;
 public class ProductTest extends BaseTest {
 
 
-    @Test
+    @Test (description = "Название проверки")
     public void buyProduct() {
         loginPage.open();
         loginPage.login(login, password);
